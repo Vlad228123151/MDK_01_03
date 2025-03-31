@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ExpenseTracker.MainPage"
+             Title="Отслеживание расходов"
+             BackgroundColor="{StaticResource PageBackgroundColor}">
+
+    <Grid RowDefinitions="Auto, Auto, Auto, *" ColumnDefinitions="*, *">
+        <VerticalStackLayout Grid.Row="0" Grid.ColumnSpan="2" Padding="20" Spacing="10">
+            <Label Text="Добавить расход" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Center" TextColor="{StaticResource PrimaryTextColor}"/>
+
+            <Frame Style="{StaticResource InputFrameStyle}">
+                <Entry x:Name="AmountEntry" Placeholder="Сумма" Keyboard="Numeric"/>
+            </Frame>
+
+            <Frame Style="{StaticResource InputFrameStyle}">
+                <Picker x:Name="CategoryPicker" Title="Категория"/>
+            </Frame>
+
+            <Frame Style="{StaticResource InputFrameStyle}">
+                <DatePicker x:Name="DateEntry"/>
+            </Frame>
+
+            <Frame Style="{StaticResource InputFrameStyle}">
+                <Entry x:Name="NotesEntry" Placeholder="Заметки"/>
+            </Frame>
+
+            <Button Text="Добавить" Clicked="OnAddExpenseClicked" Style="{StaticResource PrimaryButtonStyle}"/>
+        </VerticalStackLayout>
+
+        <Label Grid.Row="1" Grid.ColumnSpan="2" Text="Список расходов" FontSize="Medium" FontAttributes="Bold" Margin="20,0,20,0" TextColor="{StaticResource PrimaryTextColor}"/>
+
+        <ListView x:Name="ExpensesListView" Grid.Row="2" Grid.ColumnSpan="2" Margin="20,0,20,0" HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame Style="{StaticResource ExpenseItemFrameStyle}">
+                            <Grid ColumnDefinitions="Auto, *, Auto">
+                                <Label Grid.Column="0" Text="{Binding Amount, StringFormat='{0:C}'}" FontAttributes="Bold" VerticalOptions="Center" TextColor="{StaticResource PrimaryTextColor}"/>
+                                <StackLayout Grid.Column="1" VerticalOptions="Center">
+                                    <Label Text="{Binding Category}" FontAttributes="Italic" TextColor="{StaticResource SecondaryTextColor}"/>
+                                    <Label Text="{Binding Date, StringFormat='{0:d}'}" TextColor="{StaticResource SecondaryTextColor}"/>
+                                    <Label Text="{Binding Notes}" TextColor="{StaticResource SecondaryTextColor}"/>
+                                </StackLayout>
+                                <ImageButton Grid.Column="2" Source="delete.png" WidthRequest="30" HeightRequest="30" BackgroundColor="Transparent" Padding="5" CommandParameter="{Binding .}" Clicked="OnDeleteExpenseClicked"/>
+                            </Grid>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Frame Grid.Row="3" Grid.ColumnSpan="2" Margin="20" Style="{StaticResource TotalExpensesFrameStyle}">
+            <Label x:Name="TotalExpensesLabel" Text="Всего потрачено: 0" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" TextColor="{StaticResource AccentColor}"/>
+        </Frame>
+    </Grid>
+</ContentPage>
